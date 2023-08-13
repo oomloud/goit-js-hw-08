@@ -32,17 +32,13 @@ if (savedTimestamp) {
                 break;
         }
     });
-} else {
-    player.setCurrentTime(0);
 }
 
 // reading the current video timestamp every 1s 
 player.on('timeupdate', _.throttle((evt) => {
     localStorage.setItem("videoplayer-current-time", JSON.stringify(evt))
-    // console.log(evt);
-    // resetting the localstorage data in case user watched the video to the very end of the video
+    // deleting the localstorage data in case user watched the video to the very end of the video
     if (evt.percent === 1) {
         localStorage.removeItem("videoplayer-current-time");
-        // console.log("storage empty");
     }
-}, 1000))
+}, 1000, { trailing: true }))
