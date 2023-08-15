@@ -8,8 +8,8 @@
 // remove localstorage in case user watched the video to the very end of the video
 
 import Player from '@vimeo/player';
+import throttle from "lodash/throttle";
 
-const _ = require("lodash");
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe)
 
@@ -35,7 +35,7 @@ if (savedTimestamp) {
 }
 
 // reading the current video timestamp every 1s 
-player.on('timeupdate', _.throttle((evt) => {
+player.on('timeupdate', throttle((evt) => {
     localStorage.setItem("videoplayer-current-time", JSON.stringify(evt))
     // deleting the localstorage data in case user watched the video to the very end of the video
     if (evt.percent === 1) {
